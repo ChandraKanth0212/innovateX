@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CurrHub - AI Curriculum Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 80px;
+            background: rgba(15,23,42,0.8);
+        }
+
+        nav h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            margin-top: 30px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: #4f46e5;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .section {
+            padding: 80px 80px;
+            text-align: center;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            width: 300px;
+            background: #1e293b;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+        }
+
+        .generator {
+            background: #111827;
+            padding: 60px;
+        }
+
+        .generator input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .generator button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            height: 250px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            background: #0f172a;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>CurrHub</h2>
+    <div>
+        <a href="#features">Features</a>
+        <a href="#generator">Generator</a>
+        <a href="#pricing">Pricing</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Build Smarter Curriculum with AI</h1>
+    <p>Generate structured semester-wise curriculum instantly using AI.</p>
+    <button class="cta-btn" onclick="document.getElementById('generator').scrollIntoView()">Get Started</button>
+</section>
+
+<section id="features" class="section">
+    <h2>Why CurrHub?</h2>
+    <div class="features">
+        <div class="feature-box">
+            <h3>AI Powered</h3>
+            <p>Generate semester-based curriculum using advanced language models.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Structured Output</h3>
+            <p>Organized subjects, descriptions, and key topics automatically.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Instant Generation</h3>
+            <p>Create full curriculum plans in seconds.</p>
+        </div>
+    </div>
+</section>
+
+<section id="generator" class="generator section">
+    <h2>Curriculum Generator</h2>
+
+    <input type="text" id="topic" placeholder="Enter Subject (e.g., Machine Learning)">
+    <input type="number" id="semesters" placeholder="Number of Semesters">
+
+    <button onclick="generate()">Generate Curriculum</button>
+
+    <div id="output"></div>
+</section>
+
+<section id="pricing" class="section">
+    <h2>Pricing</h2>
+    <p>Free Plan – Unlimited local generation</p>
+    <p>Pro Plan – Coming Soon</p>
+</section>
+
+<footer>
+    © 2026 CurrHub. All rights reserved.
+</footer>
+
+<script>
+function generate() {
+
+    const topic = document.getElementById("topic").value;
+    const semesters = document.getElementById("semesters").value;
+
+    document.getElementById("output").innerText = "Generating...";
+
+    fetch("/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            topic: topic,
+            semesters: semesters
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("output").innerText = data.response;
+    })
+    .catch(error => {
+        document.getElementById("output").innerText = "Error generating curriculum.";
+    });
+}
+</script>
+
+</body>
+</html>
